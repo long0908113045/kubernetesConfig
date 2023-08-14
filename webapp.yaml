@@ -5,7 +5,7 @@ metadata:
   labels:
     app: webapp
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: webapp
@@ -16,15 +16,12 @@ spec:
     spec:
       containers:
         - name: webapp
-          image: 0932631194/kubernetesbe:v1.0
+          image: 0932631194/kubernetesbe:v2.0
           ports:
             - containerPort: 8080
           env:
             - name: spring.datasource.username
-              valueFrom:
-                secretKeyRef:
-                  name: mysql-secret
-                  key: mysql-user
+              value: root
             - name: spring.datasource.password
               valueFrom:
                 secretKeyRef:
@@ -34,7 +31,7 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   name: mysql-config
-                  key: mysql-service
+                  key: mysql-url
 ---
 apiVersion: v1
 kind: Service
